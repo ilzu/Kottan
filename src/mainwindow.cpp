@@ -33,15 +33,27 @@ MainWindow::MainWindow(BRect geometry)
 									B_FILE_NODE,
 									false,
 									new BMessage(MW_REF_MESSAGEFILE));
+	fSaveFilePanel = new BFilePanel(B_SAVE_PANEL,
+									new BMessenger(this),
+									NULL,
+									B_FILE_NODE,
+									false,
+									new BMessage(MW_MESSAGEFILE_SAVED));
 
 	//define menu layout
 	BLayoutBuilder::Menu<>(fTopMenuBar)
 		.AddMenu(B_TRANSLATE("File"))
+			.AddItem(B_TRANSLATE("New"), MW_NEW_MESSAGEFILE, 'N')
 			.AddItem(B_TRANSLATE("Open"), MW_OPEN_MESSAGEFILE, 'O')
 			.AddItem(B_TRANSLATE("Save"), MW_SAVE_MESSAGEFILE, 'S')
+			.AddItem(B_TRANSLATE("Save As" B_UTF8_ELLIPSIS), MW_SAVE_MESSAGEFILE_AS, 'S', B_SHIFT_KEY)
 			.AddItem(B_TRANSLATE("Reload"), MW_RELOAD_FROM_FILE, 'R')
 			.AddSeparator()
 			.AddItem(B_TRANSLATE("Quit"), B_QUIT_REQUESTED, 'Q')
+		.End()
+		.AddMenu(B_TRANSLATE("Data"))
+			.AddItem(B_TRANSLATE("Add" B_UTF8_ELLIPSIS), MW_DATA_ADD, 'A')
+			.AddItem(B_TRANSLATE("Delete"), MW_DATA_DELETE, 'D')
 		.End()
 		.AddMenu(B_TRANSLATE("Help"))
 			.AddItem(B_TRANSLATE("About"), MW_MENU_ABOUT)
@@ -49,6 +61,7 @@ MainWindow::MainWindow(BRect geometry)
 	.End();
 
 	fTopMenuBar->FindItem(MW_SAVE_MESSAGEFILE)->SetEnabled(false);
+	//fTopMenuBar->FindItem(MW_SAVE_MESSAGEFILE_AS)->SetEnabled(false);
 	fTopMenuBar->FindItem(MW_RELOAD_FROM_FILE)->SetEnabled(false);
 
 	//define main layout
@@ -69,6 +82,7 @@ MainWindow::~MainWindow()
 {
 
 	delete fOpenFilePanel;
+	delete fSaveFilePanel;
 
 }
 
@@ -277,6 +291,11 @@ MainWindow::MessageReceived(BMessage *msg)
 		{
 			fMessageInfoView->UpdateData();
 			switch_unsaved_state(false);
+			break;
+		}
+		
+		case MW_DATA_ADD:
+		{
 			break;
 		}
 

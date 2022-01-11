@@ -17,9 +17,12 @@
 enum
 {
 	MW_MENU_ABOUT ='mw00',
+	MW_NEW_MESSAGEFILE,
 	MW_OPEN_MESSAGEFILE,
 	MW_SAVE_MESSAGEFILE,
+	MW_SAVE_MESSAGEFILE_AS,
 	MW_REF_MESSAGEFILE,
+	MW_MESSAGEFILE_SAVED,
 	MW_ENTERED_MESSAGEFILE,
 	MW_INSPECTMESSAGEFILE,
 	MW_OPEN_REPLY,
@@ -30,6 +33,8 @@ enum
 	MW_RELOAD_FROM_FILE,
 	MW_CONFIRM_RELOAD,
 	MW_UPDATE_MESSAGEVIEW,
+	MW_DATA_ADD,
+	MW_DATA_DELETE
 };
 
 class MainWindow : public BWindow {
@@ -48,6 +53,7 @@ private:
 	BMenuBar			*fTopMenuBar;
 	MessageView			*fMessageInfoView;
 	BFilePanel			*fOpenFilePanel;
+	BFilePanel			*fSaveFilePanel;
 	bool				fUnsaved;
 };
 
